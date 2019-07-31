@@ -65,13 +65,23 @@ public class WebSocketTest {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
+
+        String[] ms = message.split(",");
+        String userName = ms[0];
+        String age = ms[1];
+        System.out.println("userName="+userName+"|"+"age="+age);
+        if (userName.equals("熊伟")){
+            userName = "李四";
+        }
         // testService = (TestService) ContextLoader.getCurrentWebApplicationContext().getBean("testService");
 //        List<User> users = testService.findUserByName(message);
         //群发消息
         for(WebSocketTest item: webSocketSet){
             try {
 //                for (User user: users) {
-                    item.sendMessage(new Date()+":"+"你好"+":"+1111);
+                    item.sendMessage("可以修改数据：");
+                    String obj = userName+","+age;
+                    item.sendMessage(obj);
 //                }
             } catch (IOException e) {
                 e.printStackTrace();
